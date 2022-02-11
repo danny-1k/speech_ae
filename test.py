@@ -16,6 +16,8 @@ from src.models.convae import ConvAE
 
 import src.utils.audio_utils as audio_utils
 
+from src.config import Config
+
 import numpy as np
 
 import math
@@ -26,15 +28,15 @@ from torchaudio.transforms import MelSpectrogram,AmplitudeToDB,InverseMelScale
 from torchaudio.functional import DB_to_amplitude
 
 
-SR = 16_000
+SR = Config.audio_config.SAMPLE_RATE
 
 
 
 
 
-N_FFT = 1024
-HOP_LEN = 512
-N_MELS = 64
+N_FFT = Config.audio_config.N_FFT
+HOP_LEN = Config.audio_config.HOP_LEN
+N_MELS = Config.audio_config.N_MELS
 
 mel_spec = MelSpectrogram(
     sample_rate=SR,
@@ -52,8 +54,8 @@ inverse_mel = InverseMelScale(
 )
 
 
-MU = -13.7342
-STD = 16.1290
+MU = Config.train_config.TRAIN_MU
+STD = Config.train_config.TRAIN_STD
 
 
 # with torch.no_grad():
