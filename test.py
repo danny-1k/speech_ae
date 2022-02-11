@@ -65,7 +65,7 @@ net.load_model_('models')
 
 
 
-audio,sr = audio_utils.read_audio_file('test.wav')
+audio,sr = audio_utils.read_audio_file('test_audio.wav')
 
 audio = audio_utils.convert_to_mono(audio)
 
@@ -174,5 +174,5 @@ truth = np.hstack(truth)
 plt.plot(out)
 plt.show()
 
-wavfile.write('recon.wav',SR,out)
+wavfile.write('reconstructed.wav',SR,out)
 # wavfile.write('truth.wav',SR,truth)
