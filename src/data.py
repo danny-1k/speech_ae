@@ -11,12 +11,15 @@ import numpy as np
 import utils.audio_utils as audio_utils
 
 
+from config import Config
+
+
 class SpeechDS(Dataset):
-    def __init__(self,train=True,mu=-13.7342,std=16.1290):
+    def __init__(self,train=True):
         super().__init__()
         self.train = train
-        self.mu = mu
-        self.std = std
+        self.mu = Config.train_config.TRAIN_MU
+        self.std = Config.train_config.TRAIN_STD
 
         if train:
             self.data = [os.path.join('../data/train',f) for f in os.listdir('../data/train')]
