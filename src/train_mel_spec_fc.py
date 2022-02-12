@@ -30,7 +30,7 @@ testloader = DataLoader(test,64,shuffle=True)
 
 # net.to(device)
 
-net = ConvAE()
+net = FCAE()
 
 lossfn = nn.MSELoss()
 
@@ -53,8 +53,8 @@ for epoch in tqdm(range(100)):
     net.train()
     for x,y in trainloader:
 
-        x = x.to(device)
-        y = y.to(device)
+        x = x.to(device).view(x.shape[0],-1)
+        y = y.to(device).view(y.shape[0],-1)
 
         optimizer.zero_grad()
 
@@ -74,8 +74,8 @@ for epoch in tqdm(range(100)):
     with torch.no_grad():
         for x,y in testloader:
 
-            x = x.to(device)
-            y = y.to(device)
+            x = x.to(device).view(x.shape[0],-1)
+            y = y.to(device).view(y.shape[0],-1)
 
             p = net(x)
             loss = lossfn(p,y)
