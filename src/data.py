@@ -18,8 +18,8 @@ class MelSpec(Dataset):
     def __init__(self,train=True):
         super().__init__()
         self.train = train
-        self.mu = MelSpecConfig.train_config.TRAIN_MU
-        self.std = MelSpecConfig.train_config.TRAIN_STD
+        self.mu = MelSpecConfig.TRAIN_MU
+        self.std = MelSpecConfig.TRAIN_STD
 
         if train:
             self.data = [os.path.join('../data/train/mel_spec',f) for f in os.listdir('../data/train/mel_spec')]
