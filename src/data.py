@@ -14,7 +14,7 @@ import utils.audio_utils as audio_utils
 from config import Config
 
 
-class SpeechDS(Dataset):
+class MelSpec(Dataset):
     def __init__(self,train=True):
         super().__init__()
         self.train = train
@@ -22,14 +22,14 @@ class SpeechDS(Dataset):
         self.std = Config.train_config.TRAIN_STD
 
         if train:
-            self.data = [os.path.join('../data/train',f) for f in os.listdir('../data/train')]
+            self.data = [os.path.join('../data/train/mel_spec',f) for f in os.listdir('../data/train/mel_spec')]
 
             # self.transform = tatransforms.Compose([
             #     self._random_gaussian_noise(),
             # ])
 
         else:
-            self.data = [os.path.join('../data/test',f) for f in os.listdir('../data/test')]
+            self.data = [os.path.join('../data/test/mel_spec',f) for f in os.listdir('../data/test/mel_spec')]
             # self.transform = tatransforms.Compose([
             # ])
 
