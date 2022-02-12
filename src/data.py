@@ -11,15 +11,15 @@ import numpy as np
 import utils.audio_utils as audio_utils
 
 
-from config import Config
+from config import MelSpecConfig
 
 
 class MelSpec(Dataset):
     def __init__(self,train=True):
         super().__init__()
         self.train = train
-        self.mu = Config.train_config.TRAIN_MU
-        self.std = Config.train_config.TRAIN_STD
+        self.mu = MelSpecConfig.train_config.TRAIN_MU
+        self.std = MelSpecConfig.train_config.TRAIN_STD
 
         if train:
             self.data = [os.path.join('../data/train/mel_spec',f) for f in os.listdir('../data/train/mel_spec')]
