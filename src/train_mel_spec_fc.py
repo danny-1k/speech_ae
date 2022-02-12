@@ -32,7 +32,7 @@ testloader = DataLoader(test,64,shuffle=True)
 
 net = FCAE()
 
-lossfn = nn.MSELoss()
+lossfn = nn.L1Loss()
 
 lr = 1e-2
 
