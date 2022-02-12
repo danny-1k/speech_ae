@@ -8,16 +8,16 @@ from torchaudio.transforms import MelSpectrogram,AmplitudeToDB
 import numpy as np
 
 
-from config import Config
+from config import MelSpecConfig
 
-SAVE_DIR = '../data/processed'
+SAVE_DIR = '../data/processed/mel_spec'
 
-SAMPLE_RATE = Config.audio_config.SAMPLE_RATE
-MAX_TIME = Config.audio_config.MAX_TIME
+SAMPLE_RATE = MelSpecConfig.audio_config.SAMPLE_RATE
+MAX_TIME = MelSpecConfig.audio_config.MAX_TIME
 
-N_FFT = Config.audio_config.N_FFT
-HOP_LEN = Config.audio_config.HOP_LEN
-N_MELS = Config.audio_config.N_MELS
+N_FFT = MelSpecConfig.audio_config.N_FFT
+HOP_LEN = MelSpecConfig.audio_config.HOP_LEN
+N_MELS = MelSpecConfig.audio_config.N_MELS
 
 # SHOULD_LOG_TRANS = True #Take the log (base 10)
 
