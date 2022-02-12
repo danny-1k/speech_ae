@@ -4,7 +4,7 @@ import torch.optim as optim
 
 from models.fcae import FCAE
 
-from data import SpeechDS
+from data import MelSpec
 
 from torch.utils.data import DataLoader
 
@@ -19,9 +19,9 @@ torch.manual_seed(42)
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-train = SpeechDS(train=True)
+train = MelSpec(train=True)
 
-test = SpeechDS(train=False)
+test = MelSpec(train=False)
 
 trainloader = DataLoader(train,64,shuffle=True)
 testloader = DataLoader(test,64,shuffle=True)
