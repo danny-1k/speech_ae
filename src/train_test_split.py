@@ -23,7 +23,7 @@ if dataset not in ['mel_spec','mfcc','waveform']:
     raise ValueError('`dataset` must be mel_spec,mfcc or waveform')
 
 
-if not (train_pct > 0 and train_pct > 1):
+if not (train_pct > 0 and train_pct < 1):
     raise ValueError('`train_pct` must be between 0 and 1')
 
 
