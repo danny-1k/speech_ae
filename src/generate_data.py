@@ -45,10 +45,9 @@ class DataGen:
                 sample_rate=self.sampling_rate,
                 n_mfcc=self.params.get('n_mfcc'),
                 log_mels=self.params.get('log_mels'),
+                melkwargs={'n_fft':1024,'hop_length':512,}
 
             ) 
-
-        
 
 
         if not os.path.exists(self.save_dir):
@@ -100,7 +99,7 @@ class DataGen:
 
 
     def make_dataset(self):
-        number_of_samples = self.sampling_rate*self.time_per_sample
+        number_of_samples = int(self.sampling_rate*self.time_per_sample)
 
         for f in tqdm(list_dirs('../data/audio_ds')):
             audio,sr = self.read_audio(f)
@@ -143,14 +142,23 @@ if __name__ == '__main__':
 
     parser.add_argument('--time_per_sample',required=True,type=float)
     parser.add_argument('--dataset',required=True,type=str)
-    parser.add_argument('--params',required=True,type=json.loads)
+    parser.add_argument('--params',required=True,type=str)
     parser.add_argument('--ignore_warning',action='store_true')
 
     args = parser.parse_args()
 
     time_per_sample = args.time_per_sample
     dataset = args.dataset
-    params = args.params
+    params = ''
+    for idx, param in enumerate(args.params.replace(' ','').split(',')):
+        key_val = param.split(':')
+        key = f'"{key_val[0]}"'
+        val = key_val[1]
+
+        params+=':'.join([key,val]) + (',' if idx != args.params.count(',') else '')
+
+    params = json.loads('{' + params + '}')
+
     ignore_warning = args.ignore_warning
 
     gen = DataGen(params=params,
