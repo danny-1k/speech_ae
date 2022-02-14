@@ -33,8 +33,27 @@ random.shuffle(files)
 
 
 if not os.path.exists(f'../data/train/{dataset}'):
-    print(f'[!] {dataset} path does not exist... Creating')
+    print(f'[!] {dataset} path in `train`does not exist... Creating')
     os.makedirs(f'../data/train/{dataset}')
+
+
+if not os.path.exists(f'../data/test/{dataset}'):
+    print(f'[!] {dataset} path in `test`does not exist... Creating')
+    os.makedirs(f'../data/test/{dataset}')
+
+
+
+if len(os.listdir(f'../data/train/{dataset}')) >0:
+    print('[!] There are files in the `train` folder... Deleting')
+    for f in tqdm(os.listdir(f'../data/train/{dataset}')):
+        os.remove(os.path.join(f'../data/train/{dataset}',f))
+
+
+
+if len(os.listdir(f'../data/test/{dataset}')) > 0:
+    print('[!] There are files in the `test` folder... Deleting')
+    for f in tqdm(os.listdir(f'../data/test/{dataset}')):
+        os.remove(os.path.join(f'../data/test/{dataset}',f))
 
 
 print('TRAIN_SIZE => ',int(len(files)*train_pct))
