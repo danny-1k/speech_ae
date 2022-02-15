@@ -34,7 +34,7 @@ net = FCAE()
 
 lossfn = nn.L1Loss()
 
-lr = 1e-2
+lr = 1e-4
 
 optimizer = optim.Adam(net.parameters(),lr=lr)
 
