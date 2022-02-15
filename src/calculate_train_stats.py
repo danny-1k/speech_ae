@@ -2,7 +2,22 @@ import os
 import numpy as np
 
 
-DATA_PATH = '../data/train'
+import argparse
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--dataset',required=True)
+
+args = parser.parse_args()
+
+dataset = args.dataset
+
+
+if dataset not in ['mel_spec','mfcc','waveform']:
+    raise ValueError('`dataset` must be mel_spec,mfcc or waveform')
+
+
+DATA_PATH = f'../data/train/{dataset}'
 
 files = os.listdir(DATA_PATH)
 
