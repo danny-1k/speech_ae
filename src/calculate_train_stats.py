@@ -4,6 +4,8 @@ import numpy as np
 
 import argparse
 
+from tqdm import tqdm
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset',required=True)
@@ -33,7 +35,7 @@ MAX = None
 MIN = None
 
 
-for f in files:
+for f in tqdm(files):
     arr = np.load(os.path.join(DATA_PATH,f))
 
     if isinstance(MEAN,type(None)):
