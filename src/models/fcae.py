@@ -10,11 +10,14 @@ class FCAE(nn.Module):
 
         self.encoder = nn.Sequential(
 
-            nn.Linear(32*64,1000),
+            nn.Linear(20*5,50),
+            nn.Linear(50,50),
         )
 
         self.decoder = nn.Sequential(
-            nn.Linear(1000,32*64)
+            nn.Linear(50,50),
+            nn.Linear(50,20*5),
+
             
         )
 
