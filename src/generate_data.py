@@ -142,22 +142,27 @@ if __name__ == '__main__':
 
     parser.add_argument('--time_per_sample',required=True,type=float)
     parser.add_argument('--dataset',required=True,type=str)
-    parser.add_argument('--params',required=True,type=str)
+    parser.add_argument('--params',required=False,type=str,default=None)
     parser.add_argument('--ignore_warning',action='store_true')
 
     args = parser.parse_args()
 
     time_per_sample = args.time_per_sample
     dataset = args.dataset
-    params = ''
-    for idx, param in enumerate(args.params.replace(' ','').split(',')):
-        key_val = param.split(':')
-        key = f'"{key_val[0]}"'
-        val = key_val[1]
 
-        params+=':'.join([key,val]) + (',' if idx != args.params.count(',') else '')
+    if args.params != None:
+        params = ''
+        for idx, param in enumerate(args.params.replace(' ','').split(',')):
+            key_val = param.split(':')
+            key = f'"{key_val[0]}"'
+            val = key_val[1]
 
-    params = json.loads('{' + params + '}')
+            params+=':'.join([key,val]) + (',' if idx != args.params.count(',') else '')
+
+        params = json.loads('{' + params + '}')
+
+    else:
+        params = args.params
 
     ignore_warning = args.ignore_warning
 
