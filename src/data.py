@@ -65,3 +65,37 @@ class MelSpec(Dataset):
 
     def __len__(self):
         return len(self.data)
+
+
+class MFCC(Dataset):
+    def __init__(self,MU,STD,train=True):
+        super().__init__()
+        self.train = train
+        self.mu = MU
+        self.std = STD
+
+        if train:
+            self.data = [os.path.join('../data/train/mfcc',f) for f in os.listdir('../data/train/mfcc')]
+
+        else:
+            self.data = [os.path.join('../data/test/mfcc',f) for f in os.listdir('../data/test/mfcc')]
+
+
+    def _standardize(self,x):
+        x = (x-self.mu)/self.std
+
+        return x
+
+
+    def __getitem__(self, idx):
+        x = np.load(self.data[idx])
+        
+        x = torch.from_numpy(x)
+
+        x = self._standardize(x)
+
+
+        return x, x
+
+    def __len__(self):
+        return len(self.data)
