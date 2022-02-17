@@ -53,6 +53,9 @@ for epoch in tqdm(range(100)):
     net.train()
     for x,y in trainloader:
 
+        x = x.view(x.shape[0],-1)
+        y = y.view(y.shape[0],-1)
+
         x = x.to(device)
         y = y.to(device)
 
@@ -72,6 +75,9 @@ for epoch in tqdm(range(100)):
     net.eval()
     with torch.no_grad():
         for x,y in testloader:
+
+            x = x.view(x.shape[0],-1)
+            y = y.view(y.shape[0],-1)
 
             x = x.to(device)
             y = y.to(device)
