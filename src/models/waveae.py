@@ -4,29 +4,81 @@ import torch
 import torch.nn as nn
 
 
-class WaveNet(nn.Module):
-    def __init__(self,input_size):
+
+class WaveAE(nn.Module):
+    def __init__(self,depth=2,width=32,starting=16):
         super().__init__()
-        self.input_size = input_size
+        self.depth = depth
+        self.width = width
+        self.starting = starting
 
         self.encoder = nn.Sequential(
-            nn.Linear(input_size,4000),
-            nn.ReLU(),
-            nn.Linear(4000,2000),
-            nn.ReLU(),
-            nn.Linear(2000,1000),
-            nn.ReLU(),
-            nn.Linear(1000,600)
+            nn.Conv1d(in_channels=1,out_channels=16,
+                        kernel_size=3,stride=2,padding=3//2
+            ), #(16,1200)
+
+            nn.LeakyReLU(),
+
+            nn.Conv1d(in_channels=16,out_channels=32,
+                        kernel_size=3,stride=2,padding=3//2
+            ), #(32,600)
+
+
+            nn.LeakyReLU(),
+
+            nn.Conv1d(in_channels=32,out_channels=64,
+                        kernel_size=3,stride=2,padding=3//2
+            ), # (64,300)
+
+
+            nn.LeakyReLU(),
+
+            nn.Conv1d(in_channels=64,out_channels=64,
+                        kernel_size=3,stride=2,padding=3//2
+            ), # (64,150)
+
+
+            nn.LeakyReLU(),
+
+            nn.Conv1d(in_channels=64,out_channels=64,
+                        kernel_size=3,stride=2,padding=3//2
+            ), # (64, 75)
+
+
         )
 
         self.decoder = nn.Sequential(
-            nn.Linear(600,1000),
-            nn.ReLU(),
-            nn.Linear(1000,2000),
-            nn.ReLU(),
-            nn.Linear(2000,4000),
-            nn.ReLU(),
-            nn.Linear(4000,input_size)
+            nn.ConvTranspose1d(in_channels=64,out_channels=64,
+                        kernel_size=4,stride=2,padding=3//2
+            ), # (64,150)
+
+            nn.LeakyReLU(),
+
+            nn.ConvTranspose1d(in_channels=64,out_channels=64,
+                        kernel_size=4,stride=2,padding=3//2
+            ), # (64,300)
+
+            nn.LeakyReLU(),
+
+
+            nn.ConvTranspose1d(in_channels=64,out_channels=32,
+                        kernel_size=4,stride=2,padding=3//2
+            ), # (64,600)
+
+            nn.LeakyReLU(),
+
+
+            nn.ConvTranspose1d(in_channels=32,out_channels=16,
+                        kernel_size=4,stride=2,padding=3//2
+            ), # (64,1200)
+
+            nn.LeakyReLU(),
+
+
+            nn.ConvTranspose1d(in_channels=16,out_channels=1,
+                        kernel_size=4,stride=2,padding=3//2
+            ), # (64,2400)
+
         )
 
 
@@ -35,12 +87,14 @@ class WaveNet(nn.Module):
         x = self.encoder(x)
         x = self.decoder(x)
 
+        # print(x.shape)
+
         return x
 
 
     def save_model(self,dir):
-        torch.save(self.state_dict(),os.path.join(dir,'WaveNet.pt'))
+        torch.save(self.state_dict(),os.path.join(dir,'WaveNetAE.pt'))
 
 
     def load_model_(self,dir):
-        self.load_state_dict(torch.load(os.path.join(dir,'WaveNet.pt')))
+        self.load_state_dict(torch.load(os.path.join(dir,'WaveNetAE.pt')))
