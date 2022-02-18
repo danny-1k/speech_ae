@@ -5,7 +5,7 @@ import torch.nn as nn
 
 
 
-class WaveAE(nn.Module):
+class WaveConv1D(nn.Module):
     def __init__(self,depth=2,width=32,starting=16):
         super().__init__()
         self.depth = depth
@@ -93,8 +93,8 @@ class WaveAE(nn.Module):
 
 
     def save_model(self,dir):
-        torch.save(self.state_dict(),os.path.join(dir,'WaveNetAE.pt'))
+        torch.save(self.state_dict(),os.path.join(dir,'WaveConv1D.pt'))
 
 
     def load_model_(self,dir):
-        self.load_state_dict(torch.load(os.path.join(dir,'WaveNetAE.pt')))
+        self.load_state_dict(torch.load(os.path.join(dir,'WaveConv1D.pt')))
