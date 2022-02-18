@@ -5,4 +5,5 @@ todo.txt
 sort_nested_files.py
 papers
 hypotheses.txt
-wave_grid_search.py
+src/wave_grid_search.py
+src/torchgs
