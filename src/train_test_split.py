@@ -12,12 +12,14 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset',required=True)
 parser.add_argument('--train_pct',required=True,type=float)
+parser.add_argument('--start_fresh',action='store_true')
 
 
 args = parser.parse_args()
 
 dataset = args.dataset
 train_pct = args.train_pct
+start_fresh = args.start_fresh
 
 if dataset not in ['mel_spec','mfcc','waveform']:
     raise ValueError('`dataset` must be mel_spec,mfcc or waveform')
@@ -43,17 +45,18 @@ if not os.path.exists(f'../data/test/{dataset}'):
 
 
 
-if len(os.listdir(f'../data/train/{dataset}')) >0:
-    print('[!] There are files in the `train` folder... Deleting')
-    for f in tqdm(os.listdir(f'../data/train/{dataset}')):
-        os.remove(os.path.join(f'../data/train/{dataset}',f))
+if start_fresh:
+    if len(os.listdir(f'../data/train/{dataset}')) >0:
+        print('[!] There are files in the `train` folder... Deleting')
+        for f in tqdm(os.listdir(f'../data/train/{dataset}')):
+            os.remove(os.path.join(f'../data/train/{dataset}',f))
 
 
 
-if len(os.listdir(f'../data/test/{dataset}')) > 0:
-    print('[!] There are files in the `test` folder... Deleting')
-    for f in tqdm(os.listdir(f'../data/test/{dataset}')):
-        os.remove(os.path.join(f'../data/test/{dataset}',f))
+    if len(os.listdir(f'../data/test/{dataset}')) > 0:
+        print('[!] There are files in the `test` folder... Deleting')
+        for f in tqdm(os.listdir(f'../data/test/{dataset}')):
+            os.remove(os.path.join(f'../data/test/{dataset}',f))
 
 
 print('TRAIN_SIZE => ',int(len(files)*train_pct))
@@ -67,10 +70,12 @@ test = files[int(len(files)*train_pct):]
 for t in tqdm(train):
     if t.replace('\\','/').split('/')[-1] in os.listdir(f'../data/train/{dataset}'):
         continue
-    else:shutil.copy(t,os.path.join(f'../data/train/{dataset}',t.replace('\\','/').split('/')[-1]))
+    else:
+        os.rename(t,os.path.join(f'../data/train/{dataset}',t.replace('\\','/').split('/')[-1]))
 
 
 for t in tqdm(test):
     if t.replace('\\','/').split('/')[-1] in os.listdir(f'../data/test/{dataset}'):
         continue
-    else:shutil.copy(t,os.path.join(f'../data/test/{dataset}',t.replace('\\','/').split('/')[-1]))
+    else:
+        os.rename(t,os.path.join(f'../data/test/{dataset}',t.replace('\\','/').split('/')[-1]))
